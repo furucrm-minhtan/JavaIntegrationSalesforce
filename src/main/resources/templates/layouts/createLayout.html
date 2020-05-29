@@ -1,0 +1,60 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="create-layout(css, name, form, js)">
+<head th:replace="${css}">
+
+</head>
+
+<body >
+    <div th:replace="layouts/app :: body(~{this :: #content})">
+      <div id="content" >
+        <section class="content-header" >
+          <th:block th:replace="${name}"></th:block>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <div class="col-xs-12">
+
+              <div class="box" >
+                <th:block th:replace="${form}"></th:block>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+</body>
+
+<th:block layout:fragment="script">
+  <script>
+    $(function () {
+
+      $('#form').submit(function() {
+        $('#overlay').fadeIn();
+        $('#submit').attr('disabled', true);
+      });
+
+    })
+
+    function checkConnectSf() {
+      if(!$('#form')[0].checkValidity()) {
+        $("#form")[0].reportValidity();
+      }
+      else {
+        alert(tokenError);
+      }
+    }
+  </script>
+</th:block>
+<th:block th:replace="${js}">
+
+</th:block>
+</html>
+
+
+
+  

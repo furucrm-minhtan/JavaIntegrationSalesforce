@@ -1,0 +1,76 @@
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts/app :: head( ~{this :: .css})">
+    <link class="css">
+</head>
+
+<body th:replace="layouts/app :: body( ~{ this :: #content})">
+<div id="content">
+    <section class="content-header">
+        <h1 th:text="#{label.Proposal}"></h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+
+                <div class="box">
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="button-footer" style="height: 0px">
+                            <a class="btn btn-primary bt-center-dt" th:href="@{proposal/create}" th:text="#{label.CreateProposal}"></a>
+                        </div>
+                        <table id="budgets" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th th:text="#{label.ProposalName}"></th>
+                                <th th:text="#{label.ProposalAt}"></th>
+                                <th th:text="#{label.ApprovedAt}"></th>
+                                <th th:text="#{label.Year}"></th>
+                                <th th:text="#{label.TotalAmount}"></th>
+                                <th th:text="#{label.Action}"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="proposal : ${listProposal}">
+                                <tr>
+                                    <td><a th:href="@{proposal/{id}(id=${proposal.id})}" th:text="${proposal.name}"></a></td>
+                                    <td th:text="${proposal.getFormatProposedAt()}"></td>
+                                    <td th:text="${proposal.getFormatApprovedAt()}"></td>
+                                    <td th:text="${proposal.year}"></td>
+                                    <td th:text="${#numbers.formatDecimal(proposal.totalAmount,1,'COMMA',2,'POINT')}"></td>
+                                    <td>
+                                        <a th:href="@{proposal/edit/{id}(id=${proposal.id})}" th:title="#{label.Edit}"><i class="fa fa-fw fa-edit"></i></a>
+                                        <a th:href="@{/proposal/destroy/{id}(id=${proposal.id})}" onclick="getConfirmDelete(event)" th:title="#{label.Delete}"><i class="fa fa-fw fa-trash-o"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+</div>
+
+</body>
+<th:block layout:fragment="script">
+    <script>
+        $(function () {
+            $('#budgets').dataTable({
+                "language" : dataLanguage,
+            });
+        })
+    </script>
+</th:block>
+
+
+</html>
+

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="form">
+    <div class="box-body">
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">[[#{label.Proposal}]] <span class="red"> *</span></label>
+            <select class="form-control custom-select" name="proposalId" required>
+                <option value=""> -- [[#{label.None}]] -- </option>
+                <option th:each="i : ${listProposal}" th:value="${i.sfid}" th:text="${i.name}" th:selected="${i.sfid==junction.proposalId}">
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">[[#{label.Budget}]] <span class="red"> *</span></label>
+            <select class="form-control custom-select" name="budgetId" required>
+                <option value=""> -- [[#{label.None}]] -- </option>
+                <option th:each="i : ${listBudget}" th:value="${i.sfid}" th:text="${i.name}" th:selected="${i.sfid==junction.budgetId}">
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">[[#{label.Amount}]] <span class="red"> *</span></label>
+            <input type="number" min="0.00" step="0.01" class="form-control custom-select" name="amount" th:value="${junction.amount}" required>
+        </div>
+
+    </div>
+    <div class="box-footer button-footer">
+        <button th:if="${apiConnect}" type="submit" id="submit" class="btn btn-info" th:text="#{label.Submit}"></button>
+        <button th:unless="${apiConnect}" type="button" onclick="checkConnectSf()" class="btn btn-info" th:text="#{label.Submit}"></button>
+        <a href="javascript:history.back()" class="btn btn-default" th:text="#{label.Cancel}"></a>
+    </div>
+</div>
+</body>
+</html>

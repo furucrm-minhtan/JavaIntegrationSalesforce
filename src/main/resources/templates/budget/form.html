@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body th:fragment="form">
+<div class="box-body">
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="name">[[#{label.Name}]]<span class="red"> *</span></label>
+        <div class="col-sm-5">
+            <input id="name" type="text" class="form-control" name="name" th:field="*{name}" required/>
+            <span class="red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="year">[[#{label.Year}]]<span class="red"> *</span></label>
+        <div class="col-sm-5">
+            <input id="year" type="number" class="form-control" name="year" th:field="*{year}"  min="1000" max="3000" required/>
+            <span class="red" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
+        </div>
+    </div>
+    <div class="form-group" th:if="${#fields.hasGlobalErrors()}">
+        <label class="col-sm-2 control-label"></label>
+        <div class="col-sm-5">
+            <span class="red" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></span>
+        </div>
+    </div>
+</div>
+<input type="hidden" th:if="${id}" th:field="*{id}">
+<input type="hidden" th:if="*{sfid}" th:field="*{sfid}">
+<input type="hidden" th:value="*{totalAmount}" name="totalAmount" />
+<!--<input type="hidden"-->
+<!--       th:name="${_csrf.parameterName}"-->
+<!--       th:value="${_csrf.token}"/>-->
+<div class="box-footer button-footer">
+    <button th:if="${apiConnect}" type="submit" id="submit" class="btn btn-info" th:text="#{label.Submit}"></button>
+    <button th:unless="${apiConnect}" type="button" onclick="checkConnectSf()" class="btn btn-info" th:text="#{label.Submit}"></button>
+    <a th:href="*{id} ? @{budget/{id}(id=*{id})} : @{/budget}" class="btn btn-default" th:text="#{label.Cancel}"></a>
+</div>
+</body>
+</html>

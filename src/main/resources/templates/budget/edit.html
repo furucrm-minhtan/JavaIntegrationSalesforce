@@ -1,0 +1,31 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      th:replace="layouts/createLayout :: create-layout( ~{this :: #static-resource-css}, ~{this :: #name}, ~{this :: #form}, ~{this :: #js})">
+<head id="static-resource-css" th:replace="layouts/app :: head(~{this :: .css})">
+    <link class="css">
+</head>
+<body >
+<h1 id="name" th:text="#{label.EditBudget}"></h1>
+<div id="form">
+    <form th:action="@{/budget/edit/{id}(id=${budget.id})}" th:method="PATCH" th:object="${budget}" id="editform" class="form-horizontal">
+        <th:block th:replace="budget/form :: form"></th:block>
+    </form>
+</div>
+</body>
+<th:bock id="js">
+    <th:bock id="js">
+        <script>
+
+            function checkConnectSf() {
+                if(!$('#editform')[0].checkValidity()) {
+                    $("#editform")[0].reportValidity();
+                }
+                else {
+                    alert(tokenError);
+                }
+            }
+        </script>
+    </th:bock>
+</th:bock>
+</html>
+
+

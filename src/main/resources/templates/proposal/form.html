@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+    <div th:fragment="form">
+        <div class="box-body">
+            <div class="form-group">
+                <label class="col-sm-2 control-label"> [[#{label.ProposalName}]] <span class="red">*</span></label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" name="name" th:field="*{name}" required/>
+                    <span class="red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label"> [[#{label.Year}]] <span class="red">*</span></label>
+                <div class="col-sm-5">
+                    <input type="number" min="1000" max="3000" class="form-control" th:field="*{year}" name="year" required>
+                    <span class="red" th:if="${#fields.hasErrors('year')}" th:text="*{year}"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label"> [[#{label.ProposalAt}]] <span class="red">*</span></label>
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" name="proposedAt" th:field="*{proposedAt}"  class="form-control pull-right" id="proposed_at">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label"> [[#{label.ApprovedAt}]] <span class="red"> *</span></label>
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" name="approvedAt" th:field="*{approvedAt}" class="form-control pull-right" id="approved_at">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label"> [[#{label.Detail}]] </label>
+                <div class="col-sm-5">
+                    <textarea class="form-control" rows="3" name="detail" th:field="*{detail}"></textarea>
+                    <span class="red" th:if="${#fields.hasErrors('detail')}" th:text="*{detail}"></span>
+                </div>
+            </div>
+
+            <div class="form-group" th:if="${#fields.hasGlobalErrors()}">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-5">
+                    <span class="red" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="box-footer button-footer">
+            <button th:if="${apiConnect}" type="submit" id="submit" class="btn btn-info" th:text="#{label.Submit}"></button>
+            <button th:unless="${apiConnect}" type="button" onclick="checkConnectSf()" class="btn btn-info" th:text="#{label.Submit}"></button>
+            <a th:href="*{id} ? @{/proposal/{id}(id=*{id})} : @{/proposal}" class="btn btn-default" th:text="#{label.Cancel}"></a>
+        </div>
+    </div>
+</body>
+</html>

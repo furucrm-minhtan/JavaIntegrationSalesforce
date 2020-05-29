@@ -1,0 +1,40 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      th:replace="layouts/createLayout :: create-layout( ~{this :: #static-resource-css}, ~{this :: #name}, ~{this :: #form}, ~{this :: #js})">
+<head id="static-resource-css" th:replace="layouts/app :: head(~{this :: .css})">
+    <link class="css">
+</head>
+<body >
+<h1 id="name" th:text="#{label.Edit_Proposal_Budget}"></h1>
+<div id="form">
+    <form action="#" th:action="@{/proposalbudget/update/{id}(id=${junction.id})}" method="POST" th:object="${junction}" id="editform" class="form-horizontal">
+        <input type="hidden" th:value="*{id}" name="id" />
+        <input type="hidden" th:value="*{sfid}" name="sfid" />
+        <input type="hidden" th:value="*{typeRedirect}" name="typeRedirect" />
+        <th:block th:replace="proposal_budget/form :: form"></th:block>
+    </form>
+</div>
+</body>
+
+<th:block id="js">
+    <script>
+        $(function () {
+            $('#editform').submit(function() {
+                $('#overlay').fadeIn();
+                $('#submit').attr('disabled', true);
+            });
+        })
+
+        function checkConnectSf() {
+            if(!$('#editform')[0].checkValidity()) {
+                $("#editform")[0].reportValidity();
+            }
+            else {
+                alert(tokenError);
+            }
+        }
+    </script>
+</th:block>
+
+</html>
+
+

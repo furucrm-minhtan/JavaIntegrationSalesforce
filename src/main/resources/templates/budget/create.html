@@ -1,0 +1,29 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      th:replace="layouts/createLayout :: create-layout( ~{this :: #static-resource-css}, ~{this :: #name}, ~{this :: #form}, ~{this :: #js})">
+<head id="static-resource-css" th:replace="layouts/app :: head(~{this :: .css} )">
+  <link class="css">
+</head>
+<body >
+<h1 id="name" th:text="#{label.CreateBudget}"></h1>
+<div id="form">
+  <form th:action="@{/budget/create}" th:method="POST" th:object="${budget}" id="createform" class="form-horizontal">
+      <th:block th:replace="budget/form :: form"></th:block>
+  </form>
+</div>
+</body>
+<th:bock id="js">
+    <script>
+
+        function checkConnectSf() {
+            if(!$('#createform')[0].checkValidity()) {
+                $("#createform")[0].reportValidity();
+            }
+            else {
+                alert(tokenError);
+            }
+        }
+    </script>
+</th:bock>
+</html>
+
+

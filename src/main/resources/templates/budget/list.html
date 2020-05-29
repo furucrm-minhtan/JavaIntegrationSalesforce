@@ -1,0 +1,74 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts/app :: head( ~{this :: .css})">
+  <link class="css">
+</head>
+
+<body th:replace="layouts/app :: body( ~{ this :: #content})">
+<div id="content">
+  <section class="content-header">
+    <h1 th:text="#{label.Budget}"></h1>
+  </section>
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+
+        <div class="box">
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="button-footer" style="height: 0px">
+              <a class="btn btn-primary bt-center-dt" th:href="@{budget/create}" th:text="#{label.CreateBudget}"></a>
+            </div>
+            <table id="budgets" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th th:text="#{label.BudgetName}"></th>
+                <th th:text="#{label.Year}"></th>
+                <th th:text="#{label.TotalAmount}"></th>
+                <th th:text="#{label.Action}"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <th:block th:each="budget : ${budgetCollection}">
+                <tr>
+                  <td><a th:href="@{budget/{id}(id=${budget.id})}" th:text="${budget.name}"></a></td>
+                  <td th:text="${budget.year}"></td>
+                  <td th:text="${#numbers.formatDecimal(budget.totalAmount,1,'COMMA',2,'POINT')}"></td>
+                  <td>
+                    <a th:href="@{budget/edit/{id}(id=${budget.id})}" th:title="#{label.Edit}"><i class="fa fa-fw fa-edit"></i></a>
+                    <a th:href="@{/budget/destroy/{id}(id=${budget.id})}" onclick="getConfirmDelete(event)" th:title="#{label.Delete}"><i class="fa fa-fw fa-trash-o"></i></a>
+<!--                    <a href="javascript:void(0);" th:onclick="'javascript:confirmDeleteAjax(event, \''+@{/budget/destroy}+'\', \''+${budget.id}+'\')'" th:title="#{label.Delete}"><i class="fa fa-fw fa-trash-o"></i>-->
+<!--                    </a>-->
+                  </td>
+                </tr>
+              </th:block>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+</div>
+
+</body>
+<th:block layout:fragment="script">
+  <script>
+    $(function () {
+
+      $('#budgets').dataTable({
+        "language" : dataLanguage,
+      });
+
+    })
+  </script>
+</th:block>
+
+
+</html>
+

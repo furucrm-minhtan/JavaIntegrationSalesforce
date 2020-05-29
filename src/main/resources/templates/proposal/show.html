@@ -1,0 +1,84 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      th:replace="layouts/detailLayout :: detail-layout(~{this :: #css1}, ~{this :: #name}, ~{this :: #detail}, ~{this:: #relationShip}, ~{this :: #linkEdit}, ~{this :: #linkDelete})">
+<head id="css1" th:replace="layouts/app :: head(~{this :: .css})">
+    <link class="css">
+</head>
+<body >
+<h1 id="name" th:text="#{label.Detail_Proposal}"></h1>
+<a id="linkEdit" class="btn btn-block btn-primary" th:href="@{/proposal/edit/{id}(id=${proposal.id})}">[[#{label.Edit}]]</a>
+<a id="linkDelete" class="btn btn-block btn-danger" onclick="getConfirmDelete(event)" th:href="@{/proposal/destroy/{id}(id=${proposal.id})}">[[#{label.Delete}]]</a>
+<div id="detail">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">[[#{label.ProposalName}]] :</label>
+        <div class="col-sm-5" th:text="${proposal.name}" style="padding-top: 7px"></div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">[[#{label.Year}]] : </label>
+        <div class="col-sm-5" th:text="${proposal.year}" style="padding-top: 7px"></div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">[[#{label.ProposalAt}]] : </label>
+        <div class="col-sm-5" th:text="${proposal.getFormatProposedAt()}" style="padding-top: 7px"></div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">[[#{label.ApprovedAt}]] : </label>
+        <div class="col-sm-5" th:text="${proposal.getFormatApprovedAt()}" style="padding-top: 7px"></div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">[[#{label.TotalAmount}]] : </label>
+        <div class="col-sm-5" th:text="${#numbers.formatDecimal(proposal.totalAmount,1,'COMMA',2,'POINT')}" style="padding-top: 7px"></div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">[[#{label.Detail}]] : </label>
+        <div class="col-sm-5" style="padding-top: 7px">
+            <textarea th:if="${proposal.detail}" th:text="${proposal.detail}" readonly class="form-control" rows="5"></textarea>
+        </div>
+    </div>
+    <!--    <div class="form-group">-->
+    <!--        <label class="col-sm-2 control-label"></label>-->
+    <!--        <div class="col-sm-5">-->
+    <!--            <span class="red" th:if="${#fields.hasErrors('global')}" th:errors="*{global}"></span>-->
+    <!--        </div>-->
+    <!--    </div>-->
+</div>
+<div id="relationShip">
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title"><b th:text="#{label.Proposal_Budget}"></b></h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <div class="button-footer" style="height: 0px">
+                <a class="btn btn-primary bt-center-dt" th:href="@{/proposalbudget/create/proposal-{id}(id=${proposal.id})}" th:text="#{label.Create_Proposal_Budget}"></a>
+            </div>
+            <table class="table table-bordered table-striped" id="proposalBudget">
+                <thead>
+                <tr>
+                    <th th:text="#{label.BudgetName}"></th>
+                    <th th:text="#{label.Amount}"></th>
+                    <th style="width: 120px" th:text="#{label.Action}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="proposalBudget : ${listProposalBudget}">
+                    <td><a th:href="@{/budget/{id}(id=${proposalBudget.budgetLink})}" th:text="${proposalBudget.name}"></a></td>
+                    <td th:text="${#numbers.formatDecimal(proposalBudget.amount,1,'COMMA',2,'POINT')}"></td>
+                    <td>
+                        <a th:href="@{/proposalbudget/edit/proposal-{id}(id=${proposalBudget.id})}" th:title="#{label.Edit}"><i class="fa fa-fw fa-edit"></i></a>
+                        <a href="javascript:void(0);" th:onclick="'javascript:confirmDeleteAjax(event, \''+@{/proposalbudget/destroy}+'\', \''+${proposalBudget.id}+'\')'"  th:title="#{label.Delete}"><i class="fa fa-fw fa-trash-o"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

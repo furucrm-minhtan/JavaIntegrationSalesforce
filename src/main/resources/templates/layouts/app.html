@@ -1,0 +1,161 @@
+<!DOCTYPE>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:spring="http://www.w3.org/1999/XSL/Transform"
+>
+<head th:fragment="head(css)">
+    <meta charset = "ISO-8859-1"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" type="image/x-icon" href="/image/favicon.ico">
+    <title>Citron</title>
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <!-- ... -->
+
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="csrf-token" content="">
+    <link rel="stylesheet" href="/template/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/template/bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/template/bower_components/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="/template/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="/template/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="/template/dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/template/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+    <th:block th:replace="${css}"></th:block>
+
+    <!-- Google Font -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<body th:fragment="body(content)" class="hold-transition skin-blue sidebar-mini" >
+<div id="overlay" style="display:none;">
+    <div class="spinner"></div>
+    <br/>
+    [[#{label.Loading}]]
+</div>
+<div class="wrapper">
+
+    <header class="main-header">
+        <!-- Logo -->
+        <a href="javascript:void(0)" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>C</b>itron</span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>Citron</b></span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top">
+            <!-- Sidebar toggle button-->
+
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+
+                    <li class="dropdown notifications-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:switch="${#locale}">
+                            <span th:case="${#locale.ENGLISH}"><img width="20px" th:src="@{/image/flag-us.png}"> English</span>
+                            <span th:case="*"><img width="20px" th:src="@{/image/flag-jp.png}">  日本語</span>
+                        </a>
+                        <ul class="dropdown-menu" style="width: 20px; min-width: 87px !important;">
+                            <li class="footer"><a th:href="@{|${#httpServletRequest.requestURI}?language=ja|}" ><img width="20px" th:src="@{/image/flag-jp.png}"> 日本語</a></li>
+                            <li class="footer"><a th:href="@{|${#httpServletRequest.requestURI}?language=en|}" ><img width="20px" th:src="@{/image/flag-us.png}"> English</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown tasks-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            [[${#httpServletRequest.getUserPrincipal().getName()}]]
+                        </a>
+                        <ul class="dropdown-menu" style="width: 20px; min-width: 100px !important;">
+                            <li class="footer">
+                                <a th:href="@{/profile}" th:text="#{label.Profile}"></a>
+                            </li>
+                            <li class="footer">
+<!--                                <a href="javascript:void(0)" onclick="event.preventDefault();document.getElementById('logout-form').submit();" th:text="#{label.Sign_Out}"></a>-->
+                                <a th:href="@{/logout}" th:text="#{label.Sign_Out}"></a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+
+            <form id="logout-form" action="" method="POST" style="display: none;">
+
+            </form>
+        </nav>
+        <section class="content-header" style="padding-bottom: 20px;">
+            <a th:href="@{/proposal}" th:class="${#strings.contains(#httpServletRequest.requestURI, 'proposal')} AND ${NOT#strings.contains(#httpServletRequest.requestURI, 'proposalbudget')} ? 'is-active' : ''" style="margin-right: 10px; color:#fff;" th:text="#{label.Proposal}"></a>
+            <a th:href="@{/budget}" th:class="${#strings.contains(#httpServletRequest.requestURI, 'budget')} AND ${NOT#strings.contains(#httpServletRequest.requestURI, 'proposalbudget')} ? 'is-active' : ''" style="margin-right: 10px; color:#fff;" th:text="#{label.Budget}"></a>
+        </section>
+    </header>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" style="margin-left: 0" layout:fragment="content">
+        <th:block th:replace="${content}"></th:block>
+    </div>
+    <!-- /.content-wrapper -->
+
+
+    <div class="control-sidebar-bg"></div>
+</div>
+
+<script src="/template/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/template/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/template/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/template/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="/template/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/template/bower_components/fastclick/lib/fastclick.js"></script>
+<script src="/template/dist/js/adminlte.js"></script>
+<script src="/template/dist/js/demo.js"></script>
+<script src="/js/site_js.js"></script>
+<script type="text/javascript">
+
+    var base_url = '[[${#httpServletRequest.requestURI}]]';
+    var curLocale = '[[${#locale}]]';
+    var tranlateConfirm = "[[#{label.ConfirmDelete}]]";
+    var dataLanguage = (curLocale == 'en') ? en_datatable : jp_datatable;
+    var systemError = "[[#{label.System_Error}]]";
+    var tokenError = "[[#{label.Token_Error}]]";
+
+    function getConfirmDelete(event) {
+        let r = confirm(tranlateConfirm);
+        if (r == true) {
+            $('#overlay').fadeIn()
+        } else {
+            event.preventDefault();
+        }
+    }
+
+    function confirmDeleteAjax(event, link, id) {
+        event.preventDefault();
+
+        var r = confirm(tranlateConfirm);
+        if (r == true) {
+            $('#overlay').fadeIn();
+            $.ajax({
+                url: link + '/' + id,
+                method : "DELETE",
+                contentType : "application/json",
+                success: function (res) {
+                    if (res == "SUCCESS") {
+                        location.reload();
+                    }
+                    else {
+                        $('#overlay').fadeOut();
+                        alert(tokenError);
+                    }
+                },
+                error: function (res) {
+                    $('#overlay').fadeOut();
+                    alert(systemError);
+                }
+            });
+        }
+    }
+
+</script>
+<th:block layout:fragment="script"></th:block>
+</body>
+</html>
+

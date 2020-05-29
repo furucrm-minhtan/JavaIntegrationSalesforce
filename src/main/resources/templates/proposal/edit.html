@@ -1,0 +1,56 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      th:replace="layouts/createLayout :: create-layout( ~{this :: #static-resource-css}, ~{this :: #name}, ~{this :: #form}, ~{this :: #js})">
+<head id="static-resource-css" th:replace="layouts/app :: head(~{this :: .css})">
+    <link class="css">
+</head>
+<body>
+<h1 id="name" th:text="#{label.EditProposal}"></h1>
+<div id="form">
+    <form action="#" th:action="@{/proposal/edit/{id}(id=${proposal.id})}" method="POST" th:object="${proposal}" id="editform" class="form-horizontal">
+        <input type="hidden" th:value="*{id}" name="id" />
+        <input type="hidden" th:value="*{sfid}" name="sfid" />
+        <input type="hidden" th:value="*{totalAmount}" name="totalAmount" />
+        <div th:replace="proposal/form :: form"></div>
+    </form>
+</div>
+</body>
+<th:block id="js">
+    <script src="/template/bower_components/moment/min/moment.min.js"></script>
+    <script src="/template/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script>
+        $(function () {
+
+            $('#editform').submit(function() {
+                $('#overlay').fadeIn();
+                $('#submit').attr('disabled', true);
+            });
+
+            $('#approved_at').daterangepicker({
+                singleDatePicker: true,
+                timePicker: true,
+                timePickerIncrement: 30,
+                locale: { format: 'YYYY-MM-DD HH:mm:ss' }
+            });
+
+            $('#proposed_at').daterangepicker({
+                singleDatePicker: true,
+                timePicker: true,
+                timePickerIncrement: 30,
+                locale: { format: 'YYYY-MM-DD HH:mm:ss' }
+            });
+        })
+
+        function checkConnectSf() {
+            if(!$('#editform')[0].checkValidity()) {
+                $("#editform")[0].reportValidity();
+            }
+            else {
+                alert(tokenError);
+            }
+        }
+    </script>
+</th:block>
+
+</html>
+
+

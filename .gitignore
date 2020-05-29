@@ -1,8 +1,8 @@
 HELP.md
-target/
+/target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
-!**/src/test/**
+!.logs/app.log
 
 ### STS ###
 .apt_generated
@@ -29,11 +29,3 @@ build/
 
 ### VS Code ###
 .vscode/
-.mvn/
-README.md
-git
-logs/
-mvnw
-mvnw.cmd
-pom.xml
-src/

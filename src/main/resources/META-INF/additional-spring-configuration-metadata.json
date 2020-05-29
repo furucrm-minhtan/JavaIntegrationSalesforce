@@ -1,0 +1,29 @@
+{
+  "properties": [
+    {
+      "name": "oauth2.setting.client_id",
+      "type": "java.lang.String",
+      "description": "Description for oauth2.setting.client_id."
+    },
+    {
+      "name": "oauth2.setting.client_secret",
+      "type": "java.lang.String",
+      "description": "Description for oauth2.setting.client_secret."
+    },
+    {
+      "name": "oauth2.setting.redirect_uri",
+      "type": "java.lang.String",
+      "description": "Description for oauth2.setting.redirect_id."
+    },
+    {
+      "name": "oauth2.setting.uri_login",
+      "type": "java.lang.String",
+      "description": "Description for oauth2.setting.uri_login."
+    },
+    {
+      "name": "oauth2.setting.app_uri",
+      "type": "java.lang.String",
+      "description": "Description for oauth2.setting.app_uri."
+    }
+  ]
+}

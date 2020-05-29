@@ -1,0 +1,54 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:form="http://www.w3.org/1999/xhtml">
+<head th:replace="layouts/app :: head(~{this :: .css})">
+    <style class="css" type="text/css">
+        .centered {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            position: absolute;
+        }
+    </style>
+</head>
+<body th:replace="layouts/app :: body(~{this :: #content})">
+<div id="content">
+    <section class="content-header">
+        <h1 id="name" th:text="#{label.Profile}"></h1>
+    </section>
+    <section  class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="row" style="height: 200px;">
+                        <div class="centered">
+                            <div class="col-xs-6 col-xs-offset-3" style="text-align: center; margin-bottom:10px">
+                                <h4>[[#{label.Status}]]:
+                                    <span th:text="${#objects.nullSafe(api, default) == null} ? #{label.Disconnected} : ( ${ api != null AND api.expired}  ? #{label.Disconnected} : #{label.Connected}) "></span></h4>
+                            </div>
+                            <div class="col-xs-6 col-xs-offset-3">
+                                <a id="buttonState" th:href="@{/oauth2/connectSalesforce}"
+                                   th:class="${#objects.nullSafe(api, default) == null} ? 'btn btn-block btn-success' : ( ${  api != null AND api.expired} ? 'btn btn-block btn-success' : 'btn btn-block btn-danger')"
+                                   th:text="${#objects.nullSafe(api, default) == null} ? #{label.Connect} : ( ${ api != null  AND api.expired} ? #{label.Connect} : #{label.Disconnect})">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+<th:block layout:fragment="script">
+    <script>
+        $(document).ready(function()  {
+            $('#buttonState').click(function (e) {
+                $('#overlay').show();
+            });
+        })
+    </script>
+</th:block>
+</html>
+
+

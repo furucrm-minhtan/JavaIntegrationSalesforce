@@ -1,0 +1,40 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      th:replace="layouts/createLayout :: create-layout( ~{this :: #static-resource-css}, ~{this :: #name}, ~{this :: #form}, ~{this :: #js})">
+<head id="static-resource-css" th:replace="layouts/app :: head(~{this :: .css})">
+    <link class="css">
+</head>
+<body th:replace="layouts/createLayout :: content( ~{this :: #name}, ~{this :: #form})">
+<h1 id="name" th:text="#{label.Create_Proposal_Budget}"></h1>
+<div id="form">
+    <th:block id="form">
+        <form th:action="@{/proposalbudget/store}" method="POST" th:object="${junction}" id="createform" class="form-horizontal">
+            <input type="hidden" th:value="*{typeRedirect}" name="typeRedirect" />
+            <input type="hidden" th:value="*{idRedirect}" name="idRedirect" />
+            <th:block th:replace="proposal_budget/form :: form"></th:block>
+        </form>
+    </th:block>
+</div>
+</body>
+<th:block id="js">
+    <script>
+        $(function () {
+            $('#createform').submit(function() {
+                $('#overlay').fadeIn();
+                $('#submit').attr('disabled', true);
+            });
+        })
+
+        function checkConnectSf() {
+            if(!$('#createform')[0].checkValidity()) {
+                $("#createform")[0].reportValidity();
+            }
+            else {
+                alert(tokenError);
+            }
+        }
+    </script>
+</th:block>
+
+</html>
+
+

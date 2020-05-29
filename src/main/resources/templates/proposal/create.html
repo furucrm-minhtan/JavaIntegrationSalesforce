@@ -1,0 +1,54 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml"
+      th:replace="layouts/createLayout :: create-layout( ~{this :: #static-resource-css}, ~{this :: #name}, ~{this :: #form}, ~{this :: #js})"
+      layout:decorate="~{layouts/app}">
+<head id="static-resource-css" th:replace="layouts/app :: head(~{this :: .css})">
+    <link class="css">
+</head>
+<body>
+<h1 id="name" th:text="#{label.CreateProposal}"></h1>
+<th:block id="form">
+    <form th:action="@{/proposal/create}" method="POST" th:object="${proposal}" id="createform" class="form-horizontal">
+        <th:block th:replace="proposal/form :: form"></th:block>
+    </form>
+</th:block>
+</div>
+</body>
+<th:block id="js">
+    <script src="/template/bower_components/moment/min/moment.min.js"></script>
+    <script src="/template/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script>
+        $(function () {
+            $('#createform').submit(function() {
+                $('#overlay').fadeIn();
+                $('#submit').attr('disabled', true);
+            });
+
+            $('#approved_at').daterangepicker({
+                singleDatePicker: true,
+                timePicker: true,
+                timePickerIncrement: 30,
+                locale: { format: 'YYYY-MM-DD HH:mm:ss' }
+            });
+
+            $('#proposed_at').daterangepicker({
+                singleDatePicker: true,
+                timePicker: true,
+                timePickerIncrement: 30,
+                locale: { format: 'YYYY-MM-DD HH:mm:ss' }
+            });
+        })
+
+        function checkConnectSf() {
+            if(!$('#createform')[0].checkValidity()) {
+                $("#createform")[0].reportValidity();
+            }
+            else {
+                alert(tokenError);
+            }
+        }
+    </script>
+</th:block>
+
+</html>
+
+

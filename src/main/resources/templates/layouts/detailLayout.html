@@ -1,0 +1,66 @@
+
+<html xmlns:th="http://www.thymeleaf.org"
+  th:fragment="detail-layout(css, name, detail, relationShip, linkEdit, linkDelete)">
+<head th:replace="${css}">
+
+</head>
+<body>
+  <div th:replace="layouts/app :: body( ~{ this :: #content })">
+    <div id="content" >
+      <section class="content-header">
+        <th:block th:replace="${name}"></th:block>
+      </section>
+
+      <!-- Main content -->
+      <section class="content">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="box">
+              <div class="box-body">
+                <form method="POST" class="form-horizontal">
+                  <div class="form-group">
+                    <div class="col-sm-5" ></div>
+                    <div class="col-sm-1" >
+                      <th:block th:replace="${linkEdit}"></th:block>
+<!--                      <a id="editUri" class="btn btn-block btn-primary" th:href="@{budget/edit/{id}(id=budget.id)}">編集</a>-->
+                    </div>
+                    <div class="col-sm-1" >
+                      <th:block th:replace="${linkDelete}"></th:block>
+<!--                      <button type="button" class="btn btn-block btn-danger" onclick="getConfirmDelete(event)">削除</button>-->
+                    </div>
+                    <div class="col-sm-5" ></div>
+                  </div>
+                  <th:block th:replace="${detail}"></th:block>
+                </form>
+              </div>
+
+            </div>
+
+            <!--  -->
+            <th:block th:replace="${relationShip}"></th:block>
+
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+
+</body>
+<th:block layout:fragment="script">
+  <script>
+    $(function () {
+      $('#proposalBudget').dataTable({
+        "language" : dataLanguage,
+      });
+    })
+
+  </script>
+</th:block>
+
+
+</html>
+
+
+
+
